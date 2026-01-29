@@ -1,345 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>FocusFlow</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FocusFlow - Personal Productivity & Life Management Dashboard">
+  <title>FocusFlow - Productivity Dashboard</title>
 
-<style>
-*{
-  box-sizing:border-box;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont;
-}
-body{
-  margin:0;
-  background:radial-gradient(circle at top,#2a0e44,#0b0215);
-  color:#eee;
-  background-image: url( back_ground.jpg);
-}
-h1{text-align:center;margin:20px 0 5px}
-.sub{text-align:center;opacity:.7;margin-bottom:25px}
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:20px;
-  padding:20px;
-}
-
-.card{
-  background:rgba(0,0,0,.6);
-  border-radius:16px;
-  padding:16px;
-  box-shadow:0 15px 40px rgba(0,0,0,.5);
-}
-
-input,button{
-  width:100%;
-  padding:8px;
-  margin-top:6px;
-  border-radius:8px;
-  border:none;
-}
-button{
-  background:linear-gradient(90deg,#b36bff,#ff5fa2);
-  color:white;
-  cursor:pointer;
-}
-
-ul{list-style:none;padding:0;margin:10px 0}
-
-li.row{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin-bottom:8px;
-}
-
-.plus{
-  margin-left:auto;
-  width:26px;
-  height:26px;
-  border-radius:50%;
-  border:none;
-  font-weight:bold;
-  background:#ff5fa2;
-  color:white;
-  cursor:pointer;
-}
-
-/* RADAR */
-.radar-wrap{
-  display:flex;
-  justify-content:center;
-}
-canvas{
-  background:#0e041a;
-  border-radius:12px;
-}
-
-/* CALENDAR */
-.calendar{
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:6px;
-}
-.day{
-  text-align:center;
-  padding:8px 0;
-  border-radius:6px;
-  background:rgba(255,255,255,.08);
-  cursor:pointer;
-}
-.day:hover{background:#b36bff}
-
-/* MODAL */
-.overlay{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,.7);
-}
-.modal{
-  position:fixed;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  background:#12061e;
-  padding:20px;
-  border-radius:16px;
-  width:90%;
-  max-width:420px;
-}
-.hidden{display:none}
-</style>
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+  <!-- Header -->
+  <header>
+    <h1>FocusFlow</h1>
+    <div class="subtitle">Personal Productivity & Life Management</div>
+  </header>
 
-<h1>FocusFlow</h1>
-<div class="sub">Personal Productivity & Life Management</div>
+  <!-- Main Grid -->
+  <div class="grid">
 
-<div class="grid">
+    <!-- To-Do List Card -->
+    <div class="card">
+      <h3>📝 To-Do List</h3>
+      <input type="text" id="todoInput" placeholder="Enter a new task...">
+      <button onclick="addTodo()">Add Task</button>
+      <ul id="todoList"></ul>
+    </div>
 
-<!-- TO DO -->
-<div class="card">
-<h3>📝 To-Do List</h3>
-<input id="todoInput" placeholder="New task">
-<button onclick="addTodo()">Add</button>
-<ul id="todoList"></ul>
-</div>
+    <!-- Daily Habits Card -->
+    <div class="card">
+      <h3>✅ Daily Habits</h3>
+      <input type="text" id="habitInput" placeholder="Enter a new habit...">
+      <button onclick="addHabit()">Add Habit</button>
+      <ul id="habitList"></ul>
+    </div>
 
-<!-- HABITS -->
-<div class="card">
-<h3>✅ Daily Habits</h3>
-<input id="habitInput" placeholder="New habit">
-<button onclick="addHabit()">Add</button>
-<ul id="habitList"></ul>
-</div>
+    <!-- Active Goals Card -->
+    <div class="card">
+      <h3>🎯 Active Goals</h3>
+      <input type="text" id="goalInput" placeholder="Goal name...">
+      <input type="number" id="goalTarget" placeholder="Target number..." min="1" max="1000">
+      <button onclick="addGoal()">Add Goal</button>
+      <ul id="goalList"></ul>
+    </div>
 
-<!-- GOALS -->
-<div class="card">
-<h3>🎯 Active Goals</h3>
-<input id="goalInput" placeholder="Goal name">
-<input id="goalTarget" type="number" placeholder="Target">
-<button onclick="addGoal()">Add Goal</button>
-<ul id="goalList"></ul>
-</div>
+    <!-- Radar Chart Card -->
+    <div class="card">
+      <h3>📊 Goal Priority Radar</h3>
+      <div class="radar-wrap">
+        <canvas id="radar" width="280" height="280"></canvas>
+      </div>
+    </div>
 
-<!-- RADAR -->
-<div class="card">
-<h3>📊 Goal Priority Radar</h3>
-<div class="radar-wrap">
-<canvas id="radar" width="280" height="280"></canvas>
-</div>
-</div>
+    <!-- Calendar Card -->
+    <div class="card">
+      <h3>📅 Calendar</h3>
+      <div class="calendar" id="calendar"></div>
+    </div>
 
-<!-- CALENDAR -->
-<div class="card">
-<h3>📅 Calendar</h3>
-<div class="calendar" id="calendar"></div>
-</div>
+  </div>
 
-</div>
+  <!-- Day View Modal -->
+  <div id="overlay" class="overlay hidden"></div>
+  <div id="dayModal" class="modal hidden">
+    <h3 id="dayTitle"></h3>
+    <div id="dayInfo"></div>
+    <button onclick="closeDay()">Close</button>
+  </div>
 
-<!-- DAY VIEW -->
-<div id="overlay" class="overlay hidden"></div>
-<div id="dayModal" class="modal hidden">
-<h3 id="dayTitle"></h3>
-<div id="dayInfo"></div>
-<button onclick="closeDay()">Close</button>
-</div>
-
-<script>
-let todos=[], habits=[], goals=[];
-
-/* TODO LIST */
-function addTodo(){
-  const v=todoInput.value.trim();
-  if(!v)return;
-  todos.push({text:v,done:false});
-  todoInput.value="";
-  renderTodos();
-}
-function renderTodos(){
-  todoList.innerHTML="";
-  todos.forEach(t=>{
-    const li=document.createElement("li");
-    li.className="row";
-    const cb=document.createElement("input");
-    cb.type="checkbox";
-    cb.onchange=()=>t.done=cb.checked;
-    const span=document.createElement("span");
-    span.textContent=t.text;
-    li.append(span,cb);
-    todoList.appendChild(li);
-  });
-}
-
-/* HABITS */
-function addHabit(){
-  const v=habitInput.value.trim();
-  if(!v)return;
-  habits.push({name:v,done:false});
-  habitInput.value="";
-  renderHabits();
-}
-function renderHabits(){
-  habitList.innerHTML="";
-  habits.forEach(h=>{
-    const li=document.createElement("li");
-    li.className="row";
-    const cb=document.createElement("input");
-    cb.type="checkbox";
-    cb.onchange=()=>h.done=cb.checked;
-    const span=document.createElement("span");
-    span.textContent=h.name;
-    li.append(span,cb);
-    habitList.appendChild(li);
-  });
-}
-
-/* GOALS */
-function addGoal(){
-  const n=goalInput.value.trim();
-  const t=Number(goalTarget.value);
-  if(!n||!t)return;
-  goals.push({name:n,target:t,progress:0});
-  goalInput.value="";
-  goalTarget.value="";
-  renderGoals();
-}
-
-function renderGoals(){
-  goals.sort((a,b)=>(b.target-b.progress)-(a.target-a.progress));
-  goalList.innerHTML="";
-  goals.forEach((g,i)=>{
-    const li=document.createElement("li");
-    li.className="row";
-    li.append(document.createTextNode(
-      `${i+1}. ${g.name} (${g.progress}/${g.target})`
-    ));
-    const btn=document.createElement("button");
-    btn.textContent="+";
-    btn.className="plus";
-    btn.onclick=()=>{
-      if(g.progress<g.target){
-        g.progress++;
-        if(g.progress===g.target){
-          alert(`🎉 Goal completed: ${g.name}`);
-        }
-        renderGoals();
-      }
-    };
-    li.appendChild(btn);
-    goalList.appendChild(li);
-  });
-  drawRadar();
-}
-
-/* RADAR GRAPH (SAFE) */
-function drawRadar(){
-  const c=radar.getContext("2d");
-  const W=radar.width,H=radar.height;
-  c.clearRect(0,0,W,H);
-
-  if(goals.length<3){
-    c.fillStyle="#aaa";
-    c.fillText("Add at least 3 goals",70,140);
-    return;
-  }
-
-  const cx=W/2,cy=H/2,r=90;
-  const step=(Math.PI*2)/goals.length;
-
-  c.strokeStyle="rgba(255,255,255,.15)";
-  for(let i=1;i<=4;i++){
-    c.beginPath();
-    goals.forEach((_,j)=>{
-      const rr=r*i/4;
-      const x=cx+rr*Math.cos(j*step-Math.PI/2);
-      const y=cy+rr*Math.sin(j*step-Math.PI/2);
-      j?c.lineTo(x,y):c.moveTo(x,y);
-    });
-    c.closePath(); c.stroke();
-  }
-
-  c.beginPath();
-  goals.forEach((g,i)=>{
-    let rem=(g.target-g.progress)/g.target;
-    rem=Math.max(0,rem);
-    const rr=r*rem;
-    const x=cx+rr*Math.cos(i*step-Math.PI/2);
-    const y=cy+rr*Math.sin(i*step-Math.PI/2);
-    i?c.lineTo(x,y):c.moveTo(x,y);
-  });
-  c.closePath();
-  c.strokeStyle="#ff6bd5";
-  c.lineWidth=2;
-  c.stroke();
-  c.fillStyle="rgba(255,107,213,.25)";
-  c.fill();
-
-  c.fillStyle="#fff";
-  c.font="12px system-ui";
-  goals.forEach((_,i)=>{
-    c.fillText(
-      i+1,
-      cx+(r+12)*Math.cos(i*step-Math.PI/2),
-      cy+(r+12)*Math.sin(i*step-Math.PI/2)
-    );
-  });
-}
-
-/* CALENDAR */
-function buildCalendar(){
-  calendar.innerHTML="";
-  const d=new Date();
-  const days=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();
-  for(let i=1;i<=days;i++){
-    const div=document.createElement("div");
-    div.className="day";
-    div.textContent=i;
-    div.onclick=()=>openDay(i);
-    calendar.appendChild(div);
-  }
-}
-buildCalendar();
-
-/* DAY VIEW */
-function openDay(day){
-  dayTitle.textContent=`Day ${day}`;
-  dayInfo.innerHTML=`
-    <p><b>Tasks done:</b> ${todos.filter(t=>t.done).length}</p>
-    <p><b>Habits done:</b> ${habits.filter(h=>h.done).length}</p>
-    <p><b>Goals:</b></p>
-    <ul>${goals.map(g=>`<li>${g.name}: ${g.progress}/${g.target}</li>`).join("")}</ul>`;
-  overlay.classList.remove("hidden");
-  dayModal.classList.remove("hidden");
-}
-function closeDay(){
-  overlay.classList.add("hidden");
-  dayModal.classList.add("hidden");
-}
-overlay.onclick=closeDay;
-</script>
-
+  <!-- External JavaScript -->
+  <script src="script.js"></script>
 </body>
+
 </html>
