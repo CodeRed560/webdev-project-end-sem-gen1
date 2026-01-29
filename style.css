@@ -1,0 +1,104 @@
+/* :root {
+  --bg1: #0f051d;
+  --bg2: #1b0b2e;
+  --accent: #ec4899;
+  --card: rgba(255,255,255,0.06);
+}
+
+* {
+  box-sizing: border-box;
+  font-family: system-ui, sans-serif;
+  color: white;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(160deg, var(--bg1), var(--bg2));
+  overflow-y: auto; /* ✅ SCROLL FIX 
+}
+
+#bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+.nav {
+  position: sticky;
+  top: 0;
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+}
+
+.nav button {
+  background: transparent;
+  border: 1px solid var(--accent);
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.page {
+  display: none;
+  padding: 40px;
+  min-height: 100vh;
+}
+
+.page.active {
+  display: block;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 16px;
+}
+
+input, button {
+  width: 100%;
+  padding: 8px;
+  margin-top: 6px;
+  background: #140a26;
+  border: 1px solid #3a1c5a;
+  border-radius: 8px;
+}
+
+button {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  border: none;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+#calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.day {
+  padding: 16px;
+  background: var(--card);
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+} */
